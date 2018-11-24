@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "695179029940",
+    "firebase_url": "https://ponder-4b518.firebaseio.com",
+    "project_id": "ponder-4b518",
+    "storage_bucket": "ponder-4b518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695179029940:android:5907819f52f29734",
+        "android_client_info": {
+          "package_name": "com.templum.ponder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695179029940-urtb355084k8ato6jajprb7108veokct.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.templum.ponder",
+            "certificate_hash": "2112699216c012554c2beeb061af42fc427a679d"
+          }
+        },
+        {
+          "client_id": "695179029940-c4imndn3c59p18gvim9m4405a5uqv924.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9ADEXSyZz460wJa0_BL7PPpaJ4FzRKbA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695179029940-c4imndn3c59p18gvim9m4405a5uqv924.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
