@@ -3,6 +3,7 @@ package com.templum.ponder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class SignUpActivity extends AppCompatActivity{ // implements View.OnClickListener{
     private EditText emailField;
@@ -44,7 +48,6 @@ public class SignUpActivity extends AppCompatActivity{ // implements View.OnClic
 
 
 
-//        findViewById(R.id.signUpBtn).setOnClickListener(this);
 
     }
     public void registerUser(){
@@ -89,26 +92,31 @@ public class SignUpActivity extends AppCompatActivity{ // implements View.OnClic
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "You are Registered!", Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<AuthResult> task)
+            {
+                if (!task.isSuccessful())
+                {
+                    try
+                    {
+                        throw task.getException();
+                    }
+                    catch (FirebaseAuthUserCollisionException existEmail)
+                    {
+                        emailField.setError("Email is already used.");
+                        emailField.requestFocus();
+                    }
+                    catch (Exception e)
+                    {
+                        emailField.setError(e.getMessage());
+                        emailField.requestFocus();
+                    }
+
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "REEEEEEEEEE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "You are Registered!", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch(v.getId()){
-//            case R.id.signUpBtn:
-//                registerUser();
-//                break;
-//
-//
-//        }
-//
-//    }
 }
