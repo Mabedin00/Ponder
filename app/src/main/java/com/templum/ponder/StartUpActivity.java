@@ -31,11 +31,11 @@ public class StartUpActivity extends AppCompatActivity {
 
 
     }
-    public void openLogInActivity(){
+    private void openLogInActivity(){
         Intent intent = new Intent(this, LogInActivity.class);
         startActivity(intent);
     }
-    public void openSignUpActivity(){
+    private void openSignUpActivity(){
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
