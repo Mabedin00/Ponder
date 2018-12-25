@@ -60,6 +60,9 @@ public class LogInActivity extends AppCompatActivity {
                         finish();
                         openMainActivity();
                     }
+                    else {
+                        makeToast("Login Failed. Check your email and password.");
+                    }
                 }
             });
 
@@ -72,7 +75,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, com.templum.ponder.MainActivity.class);
         startActivity(intent);
     }
 
