@@ -1,5 +1,6 @@
 package com.templum.ponder;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    makeToast("Successfully signed in with: " + user.getEmail());
+
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -118,6 +119,14 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
 
         });
 
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openProfileActivity();
+
+            }
+
+        });
     }
 
     private void getUserInfo(){
@@ -182,4 +191,11 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+    private void openProfileActivity(){
+        Intent intent = new Intent(this, com.templum.ponder.ProfileActivity.class);
+        startActivity(intent);
+        makeToast("Updated changes");
+    }
+
 }

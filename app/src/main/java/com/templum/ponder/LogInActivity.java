@@ -58,7 +58,7 @@ public class LogInActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         makeToast("You are logged in!");
                         finish();
-                        openMainActivity();
+                        openProfileActivity();
                     }
                     else {
                         makeToast("Login Failed. Check your email and password.");
@@ -74,13 +74,13 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    private void openMainActivity(){
-        Intent intent = new Intent(this, com.templum.ponder.MainActivity.class);
-        startActivity(intent);
-    }
-
     private void makeToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void openProfileActivity(){
+        Intent intent = new Intent(this, com.templum.ponder.ProfileActivity.class);
+        startActivity(intent);
     }
 
 }
