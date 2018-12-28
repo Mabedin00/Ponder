@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     private Button saveBtn;
-    private EditText usernameField;
+    private EditText usernameField, firstNameField, lastNameField;
+    private Spinner gradeSpinner;
+
     private static final String TAG = "AddToDatabase";
 
     //DATABASE
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         usernameField = (EditText) findViewById(R.id.usernameField);
+        firstNameField = (EditText) findViewById(R.id.firstNameField);
+        lastNameField = (EditText) findViewById(R.id.lastNameField);
+        gradeSpinner = (Spinner) findViewById(R.id.gradeSpinner);
         saveBtn = (Button) findViewById(R.id.saveBtn);
         FirebaseUser user = mAuth.getCurrentUser();
         String username = usernameField.getText().toString();
@@ -54,6 +61,12 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         myRef = mDatabase.getReference();
         myRef.child("Users").child(user.getUid()).setValue(user);
         myRoot = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        //Grade Array
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.grade, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gradeSpinner.setAdapter(adapter);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -102,13 +115,21 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
 
     private void getUserInfo(){
         String username = usernameField.getText().toString();
+        String firstName = firstNameField.getText().toString();
+        String lastName = lastNameField.getText().toString();
+        String grade = gradeSpinner.getSelectedItem().toString();
+
         FirebaseUser user = mAuth.getCurrentUser();
-        if(!username.equals("") && username != null){
-            writeNewUser(user.getUid(), username, user.getEmail());
+        if(!username.equals("") && !firstName.equals("") &&
+           !lastName.equals("") ){
+            writeNewUser(user.getUid(), username, user.getEmail(),
+                    "qw" , grade, firstName, lastName);
         }
     }
-    private void writeNewUser(final String userId, String name, String email) {
-        Object user = new com.templum.ponder.User(name, email);
+    private void writeNewUser(final String userId, String name, String email,
+                              String gender, String grade,
+                              String firstName, String lastName) {
+        Object user = new com.templum.ponder.User(name, email, gender, grade, firstName, lastName);
         final FirebaseUser user1 = mAuth.getCurrentUser();
         Map<String, Object> users = new HashMap<>();
         users.put(userId, user);
