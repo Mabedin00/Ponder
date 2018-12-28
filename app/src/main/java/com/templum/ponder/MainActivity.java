@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     private FirebaseAuth mAuth;
     private Button saveBtn;
     private EditText usernameField, firstNameField, lastNameField;
-    private Spinner gradeSpinner;
+    private Spinner gradeSpinner, genderSpinner;
 
     private static final String TAG = "AddToDatabase";
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         firstNameField = (EditText) findViewById(R.id.firstNameField);
         lastNameField = (EditText) findViewById(R.id.lastNameField);
         gradeSpinner = (Spinner) findViewById(R.id.gradeSpinner);
+        genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
         saveBtn = (Button) findViewById(R.id.saveBtn);
         FirebaseUser user = mAuth.getCurrentUser();
         String username = usernameField.getText().toString();
@@ -63,10 +64,16 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         myRoot = FirebaseDatabase.getInstance().getReference().child("Users");
 
         //Grade Array
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> gradeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.grade, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gradeSpinner.setAdapter(adapter);
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gradeSpinner.setAdapter(gradeAdapter);
+
+        //Gender Array
+        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(this,
+                R.array.gender, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSpinner.setAdapter(genderAdapter);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -118,12 +125,13 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         String firstName = firstNameField.getText().toString();
         String lastName = lastNameField.getText().toString();
         String grade = gradeSpinner.getSelectedItem().toString();
+        String gender = genderSpinner.getSelectedItem().toString();
 
         FirebaseUser user = mAuth.getCurrentUser();
         if(!username.equals("") && !firstName.equals("") &&
            !lastName.equals("") ){
             writeNewUser(user.getUid(), username, user.getEmail(),
-                    "qw" , grade, firstName, lastName);
+                    gender , grade, firstName, lastName);
         }
     }
     private void writeNewUser(final String userId, String name, String email,
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    makeToast("Your username is set!");
+                    makeToast("Your information is set!");
                 }
                 else{
                     makeToast(task.getException().getMessage());
